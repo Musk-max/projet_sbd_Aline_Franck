@@ -1,2 +1,6 @@
 /steps
+<<<<<<< HEAD
 /.venv
+=======
+.venv/
+>>>>>>> 740b18e26a18d2fddee9b5662bcf01e2f5dd5b55
