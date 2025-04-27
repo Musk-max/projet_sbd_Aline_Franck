@@ -3,6 +3,8 @@ Rapport final — Projet SBD — Differential privacy
 
 Lien github du projet : https://github.com/Musk-max/projet_sbd_Aline_Franck/tree/module2
 
+Le processus d'execution est detaillé dans le fichier Requirements.txt
+
 Compréhension du sujet
 
 Le but principal du projet est d’implémenter l’algorithme Privelet, un mécanisme basé sur la confidentialité différentielle appliqué aux données ordinales unidimensionnelles. Il utilise la Haar Wavelet Transform (HWT) pour compresser et perturber les histogrammes de manière intelligente et structurée, avec un meilleur compromis précision/confidentialité que les mécanismes classiques.
