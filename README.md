@@ -1,7 +1,7 @@
-Rapport Intermédiaire — Projet SBD — Differential privacy
+Rapport final — Projet SBD — Differential privacy
 Étudiants : Aline N’DEKO & Franck LAGOU
 
-Lien github du projet : https://github.com/Musk-max/projet_sbd_Aline_Franck/
+Lien github du projet : https://github.com/Musk-max/projet_sbd_Aline_Franck/tree/module2
 
 Compréhension du sujet
 
@@ -27,7 +27,7 @@ Compréhension de l’instanciation de Privelet : ajout de bruit Laplacien pond�
 
 
 Implémentation technique (Python)
-Création d’un système de contrôle de version : github : https://github.com/Musk-max/projet_sbd_Aline_Franck/
+Création d’un système de contrôle de version : github : https://github.com/Musk-max/projet_sbd_Aline_Franck/tree/module2
 Installation de l’environnement virtual venv 
 Installation de numpy, scipy et pandas
 
