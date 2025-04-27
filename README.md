@@ -37,30 +37,83 @@ Chargement du fichier adult.data.
 Extraction de la colonne "éducation".
 Calcul de l’histogramme brut de la distribution des niveaux d’éducation.
 
+Privelet Algorithm
+Description de l’algorithme Privelet
+Privelet est un algorithme permettant de garantir la confidentialité différentielle par l’intermédiaire de plusieurs étapes :
 
-État d’avancement
+Application de la transformée de Haar sur les données,
+Ajout de bruit Laplacien calibré sur les coefficients obtenus,
+Reconstruction des données bruitées,
+Analyse de la qualité du résultat.
 
-Lecture de l’article scientifique terminée.
+Nous allons détailler ici chacune des étapes, en précisant les fonctions utilisées.
+Décomposition en étapes et rôles des fonctions
+Préparation des données
+Fonction : pad_to_power_of_two(arr)
+Rôle :
+ La transformée de Haar classique nécessite que le nombre de points soit une puissance de deux. Si ce n'est pas le cas, cette fonction ajoute des zéros à la fin de l'histogramme jusqu’à atteindre la taille requise. Garantit la validité de la transformation Haar.
+Application de la transformée Haar
+Fonction : haar_wavelet_transform(data)
+Rôle :
+ La fonction transforme les données en une série de coefficients de Haar, représentant :
+Les tendances globales (moyennes),
 
-Histogramme H1 fonctionnel.
 
-HWT implémentée.
+Les détails locaux (différences entre groupes de données).
+Chaque étape de la transformation réduit la résolution des données, capturant ainsi à différentes échelles l’information. Elle permet de structurer l’information de manière hiérarchique, ce qui est crucial pour l'ajout efficace de bruit.
+Calcul des poids de Haar
+Fonction : compute_whaar_weights(num_coeffs)
+Rôle :
+ Attribuer un poids spécifique à chaque coefficient en fonction de son niveau de granularité.
+Les coefficients représentant des détails fins ont généralement moins d’importance.
 
-Mécanisme Privelet codé (coefficients + bruit + reconstruction) (à faire).
 
-Intégration du calcul de la distance de Wasserstein (en cours.
-Génération des graphiques de performance.
+Ceux représentant des moyennes globales sont plus sensibles.
+Ces poids servent à calibrer la quantité de bruit ajouté à chaque coefficient pour équilibrer confidentialité et précision.
+Ajout de bruit Laplace
+Fonction : add_laplace_noise(coeffs, epsilon)
+Rôle : Ajouter un bruit aléatoire de type Laplacien à chaque coefficient transformé. Le bruit est proportionnel au poids du coefficient et inversement proportionnel au paramètre ε (epsilon), garantissant :
+Plus ε est petit → plus de bruit → plus de confidentialité,
 
-Étapes restantes (pour le rapport final)
 
-Finaliser les tests expérimentaux (ε = 0.01, 0.1, 1, 10).
+Plus ε est grand → moins de bruit → plus de précision.
+Cette étape est celle qui assure la confidentialité différentielle.
+Reconstruction inverse
+Fonction : inverse_haar_wavelet_transform(coeffs)
+Rôle : Revenir du domaine des coefficients bruités vers un histogramme bruité.
+La reconstruction utilise l'inverse de la transformation Haar,
 
-Générer les courbes d’évolution de la distance de Wasserstein.
 
-Rédiger une analyse critique des résultats : compromis entre précision et confidentialité.
+Les données sont ramenées à leur échelle originale.
+C’est ce résultat final qui sera publié comme réponse à la requête, garantissant la confidentialité.
 
-Rédaction finale du rapport (5 pages max), avec figures, commentaires, et références.
+Experimental Evaluation
+Évaluation de la qualité des résultats
+Fonction : wasserstein_distance(u, v) (de scipy.stats)
+Rôle: Mesurer la distance de Wasserstein (aussi appelée Earth Mover’s Distance) entre l’histogramme original et celui bruité.
+Plus la distance est faible, plus l'histogramme bruité est proche du vrai histogramme.
 
-Ajout d’un README clair expliquant l’installation et l’utilisation du code Python.
+Cela nous donne une quantification objective de la perte d'information.
 
-Préparation de l’archive .ZIP finale à rendre.
+Protocole expérimental
+Nous avons évalué la qualité en suivant cette méthode :
+Pour chaque valeur de ε parmi {0.01, 0.1, 1, 10},
+Répéter l’expérience 20 fois pour compenser l’aléa du bruit,
+Calculer les moyennes, minimum et maximum des distances.
+
+Analyse des résultats
+
+Les résultats confirment que :
+Avec ε = 0.01, la distance est grande → forte perte d'information mais confidentialité maximale,
+
+Avec ε = 10, la distance est faible → précision quasi intacte mais confidentialité moindre.
+On retrouve donc le compromis classique entre confidentialité et utilité.
+III. Conclusion
+À travers ce projet, nous avons pu :
+Comprendre l'intérêt de l'approche multi-échelles de Privelet,
+
+Vérifier empiriquement l'impact du paramètre ε sur la précision des résultats,
+
+Confirmer que la transformée Haar permet un ajout plus intelligent de bruit que l’ajout naïf.
+En résumé, Privelet s’avère être une méthode performante pour les données ordinales lorsque la préservation de la confidentialité est essentielle.
+Annexe : Liste des fonctions et leur rôle
