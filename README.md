@@ -1,4 +1,4 @@
-Rapport Intermédiaire — Projet SBD — Differential privacy
+Rapport Final — Projet SBD — Differential privacy
 Étudiants : Aline N’DEKO & Franck LAGOU
 
 Lien github du projet : https://github.com/Musk-max/projet_sbd_Aline_Franck/
